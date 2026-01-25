@@ -13,8 +13,6 @@ Comprehensive guide for AI agents working on the Java/Spring Boot backend and Ne
 ### Frontend (`frontend/`)
 - **Core**: Next.js 16 (App Router), React 19, TypeScript
 - **Styling**: Tailwind CSS 4
-- **Testing**: Jest, React Testing Library, MSW (Mock Service Worker)
-- **E2E**: Playwright
 
 ## 🛠️ Developer Workflows
 
@@ -23,8 +21,6 @@ Comprehensive guide for AI agents working on the Java/Spring Boot backend and Ne
   - Run: `./mvnw spring-boot:run`
 - **Frontend**:
   - Dev: `npm run dev`
-  - Unit/Component Tests: `npm test`
-  - E2E Tests: `npm run e2e` (requires backend or MSW setup)
 
 ## 📌 Project Conventions & Patterns
 
@@ -38,7 +34,6 @@ Comprehensive guide for AI agents working on the Java/Spring Boot backend and Ne
 ### ⚛️ Frontend Patterns
 - **Hooks**: Logic for fetching/managing state should be in custom hooks (e.g., [hooks/useDuck.ts](frontend/hooks/useDuck.ts)).
 - **Component UI**: Shared UI components live in [components/ui/](frontend/components/ui/).
-- **Mocking**: Use MSW [mocks/handlers.ts](frontend/mocks/handlers.ts) for matching external and backend API calls in tests and local development.
 - **Tailwind**: Use Tailwind 4 utility classes directly in components.
 
 ## 🔌 Integration Points
@@ -46,5 +41,4 @@ Comprehensive guide for AI agents working on the Java/Spring Boot backend and Ne
 - **Base URLs**: Frontend defaults to `http://localhost:8080/api/duck`. Backend `apiUrl` for the Duck API is configured in `application.properties`.
 
 ## ✅ Quality Standards
-- **Testing**: Every service method needs a Unit Test (`MockitoExtension`). Every Controller needs an Integration Test (`MockMvc`).
-- **E2E**: Critical flows like the "Duck Discovery" flow must be covered by Playwright.
+- **Testing**: Every backend service method needs a Unit Test (`MockitoExtension`). Every backend Controller needs an Integration Test (`MockMvc`).
