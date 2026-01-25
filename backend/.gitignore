@@ -1,0 +1,31 @@
+# Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.ctxt
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+bin/
+
+# Logs
+*.log
+
+# Misc
+.DS_Store
+*.swp
+*.bak
+
+# Spring Boot
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/

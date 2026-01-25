@@ -1,6 +1,7 @@
 /Users/ivan.lopez/visualStudio/demo-copilot/backend/src/main/java/com/example/demo/DemoApplication.java
-/Users/ivan.lopez/visualStudio/demo-copilot/backend/src/main/java/com/example/demo/Duck.java
-/Users/ivan.lopez/visualStudio/demo-copilot/backend/src/main/java/com/example/demo/DuckController.java
-/Users/ivan.lopez/visualStudio/demo-copilot/backend/src/main/java/com/example/demo/DuckRepository.java
-/Users/ivan.lopez/visualStudio/demo-copilot/backend/src/main/java/com/example/demo/DuckResponse.java
-/Users/ivan.lopez/visualStudio/demo-copilot/backend/src/main/java/com/example/demo/DuckService.java
+/Users/ivan.lopez/visualStudio/demo-copilot/backend/src/main/java/com/example/demo/config/AppConfig.java
+/Users/ivan.lopez/visualStudio/demo-copilot/backend/src/main/java/com/example/demo/controller/DuckController.java
+/Users/ivan.lopez/visualStudio/demo-copilot/backend/src/main/java/com/example/demo/dto/DuckResponse.java
+/Users/ivan.lopez/visualStudio/demo-copilot/backend/src/main/java/com/example/demo/model/Duck.java
+/Users/ivan.lopez/visualStudio/demo-copilot/backend/src/main/java/com/example/demo/repository/DuckRepository.java
+/Users/ivan.lopez/visualStudio/demo-copilot/backend/src/main/java/com/example/demo/service/DuckService.java

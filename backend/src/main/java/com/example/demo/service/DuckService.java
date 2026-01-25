@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.DuckResponse;
 import com.example.demo.model.Duck;
 import com.example.demo.repository.DuckRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -15,8 +16,10 @@ public class DuckService {
     private final RestClient restClient;
     private final DuckRepository duckRepository;
 
-    public DuckService(RestClient.Builder restClientBuilder, DuckRepository duckRepository) {
-        this.restClient = restClientBuilder.baseUrl("https://random-d.uk/api/v2").build();
+    public DuckService(RestClient.Builder restClientBuilder, 
+                      DuckRepository duckRepository,
+                      @Value("${duck.api.url}") String apiUrl) {
+        this.restClient = restClientBuilder.baseUrl(apiUrl).build();
         this.duckRepository = duckRepository;
     }
 

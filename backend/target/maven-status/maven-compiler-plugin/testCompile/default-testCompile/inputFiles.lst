@@ -1,1 +1,4 @@
 /Users/ivan.lopez/visualStudio/demo-copilot/backend/src/test/java/com/example/demo/DemoApplicationTests.java
+/Users/ivan.lopez/visualStudio/demo-copilot/backend/src/test/java/com/example/demo/controller/DuckControllerTest.java
+/Users/ivan.lopez/visualStudio/demo-copilot/backend/src/test/java/com/example/demo/repository/DuckRepositoryTest.java
+/Users/ivan.lopez/visualStudio/demo-copilot/backend/src/test/java/com/example/demo/service/DuckServiceTest.java
