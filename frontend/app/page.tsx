@@ -98,7 +98,7 @@ export default function Home() {
       {/* Simple Footer */}
       <footer className="mt-24 border-t border-zinc-200 pt-8 text-center text-zinc-400 dark:border-zinc-800">
         <p className="text-sm uppercase tracking-widest font-medium">
-          Powered by Java Spring Boot & Next.js
+          Iván López © {new Date().getFullYear()}
         </p>
       </footer>
     </div>
