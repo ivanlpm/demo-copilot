@@ -1,7 +1,0 @@
-com/example/demo/DemoApplication.class
-com/example/demo/controller/DuckController.class
-com/example/demo/model/Duck.class
-com/example/demo/config/AppConfig.class
-com/example/demo/service/DuckService.class
-com/example/demo/dto/DuckResponse.class
-com/example/demo/repository/DuckRepository.class
