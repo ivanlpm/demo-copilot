@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.DuckResponse;
+import com.example.demo.dto.duck.DuckResponse;
 import com.example.demo.service.DuckService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.WeatherResponse;
+import com.example.demo.dto.weather.WeatherInfo;
+import com.example.demo.dto.weather.WeatherMain;
+import com.example.demo.dto.weather.WeatherResponse;
 import com.example.demo.exception.RateLimitExceededException;
 import com.example.demo.exception.WeatherApiException;
 import com.example.demo.service.WeatherService;
@@ -45,9 +47,9 @@ class WeatherControllerTest {
         // given
         WeatherResponse response = new WeatherResponse(
             "Malaga",
-            new WeatherResponse.Main(20.5, 19.0, 65, 18.0, 22.0),
-            new WeatherResponse.Weather[]{
-                new WeatherResponse.Weather("Clear", "clear sky", "01d")
+            new WeatherMain(20.5, 19.0, 65, 18.0, 22.0),
+            new WeatherInfo[]{
+                new WeatherInfo("Clear", "clear sky", "01d")
             },
             200
         );
@@ -67,9 +69,9 @@ class WeatherControllerTest {
         // given
         WeatherResponse response = new WeatherResponse(
             "Malaga",
-            new WeatherResponse.Main(20.5, 19.0, 65, 18.0, 22.0),
-            new WeatherResponse.Weather[]{
-                new WeatherResponse.Weather("Clear", "clear sky", "01d")
+            new WeatherMain(20.5, 19.0, 65, 18.0, 22.0),
+            new WeatherInfo[]{
+                new WeatherInfo("Clear", "clear sky", "01d")
             },
             200
         );

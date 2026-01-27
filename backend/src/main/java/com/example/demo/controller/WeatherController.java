@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.WeatherResponse;
+import com.example.demo.dto.weather.WeatherResponse;
 import com.example.demo.service.WeatherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

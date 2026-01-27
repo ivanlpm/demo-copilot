@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.config.WeatherProperties;
-import com.example.demo.dto.WeatherResponse;
+import com.example.demo.dto.weather.WeatherInfo;
+import com.example.demo.dto.weather.WeatherMain;
+import com.example.demo.dto.weather.WeatherResponse;
 import com.example.demo.exception.WeatherApiException;
 import com.example.demo.model.WeatherCache;
 import com.example.demo.repository.WeatherCacheRepository;
@@ -69,8 +71,7 @@ public class WeatherService {
             // Fallback to mock data if API key is invalid (for demo purposes)
             if (e.getMessage().contains("401") || e.getMessage().contains("Unauthorized")) {
                 log.warn("API key unauthorized. Returning mock weather for demo.");
-                WeatherResponse mock = createMockResponse(city);
-                return mock;
+                return createMockResponse(city);
             }
 
             // Fallback: return stale cache if available
@@ -150,9 +151,9 @@ public class WeatherService {
     private WeatherResponse createMockResponse(String city) {
         return new WeatherResponse(
             city,
-            new WeatherResponse.Main(22.5, 23.1, 45.0, 18.0, 25.5),
-            new WeatherResponse.Weather[]{
-                new WeatherResponse.Weather("Sunny", "clear sky", "01d")
+            new WeatherMain(22.5, 23.1, 45.0, 18.0, 25.5),
+            new WeatherInfo[]{
+                new WeatherInfo("Sunny", "clear sky", "01d")
             },
             200
         );

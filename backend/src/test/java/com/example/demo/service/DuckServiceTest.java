@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.DuckResponse;
+import com.example.demo.dto.duck.DuckResponse;
 import com.example.demo.repository.DuckRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

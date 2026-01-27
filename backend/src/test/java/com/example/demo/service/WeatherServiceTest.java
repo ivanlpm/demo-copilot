@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.config.WeatherProperties;
-import com.example.demo.dto.WeatherResponse;
+import com.example.demo.dto.weather.WeatherInfo;
+import com.example.demo.dto.weather.WeatherMain;
+import com.example.demo.dto.weather.WeatherResponse;
 import com.example.demo.exception.RateLimitExceededException;
 import com.example.demo.exception.WeatherApiException;
 import com.example.demo.model.WeatherCache;
@@ -70,7 +72,7 @@ class WeatherServiceTest {
 
     @Test
     @DisplayName("getWeather should fetch from API when cache is empty")
-    void getWeather_NoCacheExists_FetchesFromApi() throws Exception {
+    void getWeather_NoCacheExists_FetchesFromApi() {
         // given
         String city = "Malaga";
         String jsonResponse = """
@@ -100,7 +102,7 @@ class WeatherServiceTest {
 
     @Test
     @DisplayName("getWeather should return mock data when API returns 401")
-    void getWeather_ApiReturns401_ReturnsMockData() throws Exception {
+    void getWeather_ApiReturns401_ReturnsMockData() {
         // given
         String city = "Malaga";
         when(cacheRepository.findByCity(city.toLowerCase())).thenReturn(Optional.empty());
@@ -125,9 +127,9 @@ class WeatherServiceTest {
         String city = "Malaga";
         WeatherResponse cachedResponse = new WeatherResponse(
             "Malaga",
-            new WeatherResponse.Main(20.5, 19.0, 65, 18.0, 22.0),
-            new WeatherResponse.Weather[]{
-                new WeatherResponse.Weather("Clear", "clear sky", "01d")
+            new WeatherMain(20.5, 19.0, 65, 18.0, 22.0),
+            new WeatherInfo[]{
+                new WeatherInfo("Clear", "clear sky", "01d")
             },
             200
         );
@@ -153,9 +155,9 @@ class WeatherServiceTest {
         String city = "Malaga";
         WeatherResponse cachedResponse = new WeatherResponse(
             "Malaga",
-            new WeatherResponse.Main(20.5, 19.0, 65, 18.0, 22.0),
-            new WeatherResponse.Weather[]{
-                new WeatherResponse.Weather("Clear", "clear sky", "01d")
+            new WeatherMain(20.5, 19.0, 65, 18.0, 22.0),
+            new WeatherInfo[]{
+                new WeatherInfo("Clear", "clear sky", "01d")
             },
             200
         );
@@ -205,7 +207,7 @@ class WeatherServiceTest {
 
     @Test
     @DisplayName("getWeatherByCoordinates should fetch from API successfully")
-    void getWeatherByCoordinates_Success_FetchesFromApi() throws Exception {
+    void getWeatherByCoordinates_Success_FetchesFromApi() {
         // given
         double lat = 36.7213;
         double lon = -4.4214;
@@ -244,9 +246,9 @@ class WeatherServiceTest {
         
         WeatherResponse cachedResponse = new WeatherResponse(
             "Malaga",
-            new WeatherResponse.Main(20.5, 19.0, 65, 18.0, 22.0),
-            new WeatherResponse.Weather[]{
-                new WeatherResponse.Weather("Clear", "clear sky", "01d")
+            new WeatherMain(20.5, 19.0, 65, 18.0, 22.0),
+            new WeatherInfo[]{
+                new WeatherInfo("Clear", "clear sky", "01d")
             },
             200
         );
