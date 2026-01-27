@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import Image from "next/image";
 
 /**
  * Props for the DuckCard component.
@@ -15,6 +16,8 @@ interface DuckCardProps {
  * A stylized card component to display a duck.
  */
 export const DuckCard: React.FC<DuckCardProps> = ({ url, message, loading }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   return (
     <div className="group relative w-full max-w-sm overflow-hidden rounded-3xl border-2 border-orange-100 bg-white shadow-xl transition-all duration-300 hover:border-orange-200 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-950 sm:max-w-md md:hover:-translate-y-2 lg:max-w-lg">
       {/* Loading Skeleton or Image */}
@@ -24,13 +27,15 @@ export const DuckCard: React.FC<DuckCardProps> = ({ url, message, loading }) => 
             <div className="h-10 w-10 animate-spin rounded-full border-4 border-orange-500 border-t-transparent md:h-12 md:w-12"></div>
           </div>
         ) : (
-          <img
-            src={url}
-            alt="Random Duck"
-            className="h-full w-full object-cover transition-opacity duration-500"
-            onLoad={(e) => (e.currentTarget.style.opacity = "1")}
-            style={{ opacity: 0 }}
-          />
+          url && (
+            <Image
+              src={url}
+              alt="Random Duck"
+              fill
+              className={`object-cover transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+              onLoad={() => setImageLoaded(true)}
+            />
+          )
         )}
       </div>
 

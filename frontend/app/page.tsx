@@ -20,7 +20,7 @@ export default function Home() {
           The <span className="text-orange-500">Duck</span> Gallery
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-          A dedicated space to enjoy the world's most beautiful ducks.
+          A dedicated space to enjoy the world&apos;s most beautiful ducks.
         </p>
       </header>
 
