@@ -18,7 +18,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build and Test with Maven
-      run: ./mvnw clean verify
+      run: mvn clean verify
       working-directory: ./backend
 
   build-frontend:
