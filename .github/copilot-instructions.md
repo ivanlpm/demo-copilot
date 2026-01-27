@@ -42,3 +42,10 @@ Comprehensive guide for AI agents working on the Java/Spring Boot backend and Ne
 
 ## ✅ Quality Standards
 - **Testing**: Every backend service method needs a Unit Test (`MockitoExtension`). Every backend Controller needs an Integration Test (`MockMvc`).
+
+## 📚 Instruction Guides
+For detailed guidelines on specific areas of the project, refer to the following instruction files:
+- **Backend**: [.github/instructions/backend.instructions.md](.github/instructions/backend.instructions.md)
+- **Backend Testing**: [.github/instructions/backend-testing.instructions.md](.github/instructions/backend-testing.instructions.md)
+- **Frontend**: [.github/instructions/frontend.instructions.md](.github/instructions/frontend.instructions.md)
+- **Code Quality**: [.github/instructions/code-quality.instructions.md](.github/instructions/code-quality.instructions.md)
