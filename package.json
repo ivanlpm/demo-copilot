@@ -1,5 +1,11 @@
 {
+  "name": "demo-copilot",
+  "private": true,
+  "workspaces": [
+    "frontend"
+  ],
   "dependencies": {
-    "pako": "^2.1.0"
+    "@tailwindcss/postcss": "^4.1.18",
+    "tailwindcss": "^4.1.18"
   }
 }

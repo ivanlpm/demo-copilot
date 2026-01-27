@@ -1,6 +1,7 @@
 'use client';
 
 import { WeatherData } from '@/types/weather';
+import Image from 'next/image';
 
 interface WeatherCardProps {
   weather: WeatherData;
@@ -11,25 +12,32 @@ export function WeatherCard({ weather }: WeatherCardProps) {
   const iconUrl = `https://openweathermap.org/img/wn/${mainWeather.icon}@2x.png`;
 
   return (
-    <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg shadow-lg p-6 text-white max-w-sm">
-      <h2 className="text-2xl font-bold mb-2">{weather.city}</h2>
-      
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <p className="text-5xl font-bold">{Math.round(weather.main.temp)}°C</p>
-          <p className="text-sm opacity-80">Feels like {Math.round(weather.main.feels_like)}°C</p>
-        </div>
-        <img 
-          src={iconUrl} 
-          alt={mainWeather.description}
-          className="w-24 h-24"
-        />
+    <div className="w-40 h-40 bg-[#3a4454] rounded-[2.5rem] p-5 text-white shadow-2xl flex flex-col justify-between transition-all hover:scale-105 select-none">
+      <div className="space-y-0.5">
+        <h3 className="text-[17px] font-semibold tracking-tight leading-tight">{weather.name}</h3>
+        <p className="text-5xl font-light tracking-tighter">
+          {Math.round(weather.main.temp)}°
+        </p>
       </div>
-
-      <div className="border-t border-white/20 pt-4">
-        <p className="text-xl capitalize mb-2">{mainWeather.description}</p>
-        <div className="flex justify-between text-sm">
-          <span>Humidity: {weather.main.humidity}%</span>
+      
+      <div className="mt-auto">
+        <div className="flex items-center gap-1">
+          <div className="relative w-7 h-7">
+            <Image 
+              src={iconUrl} 
+              alt={mainWeather.description}
+              fill
+              className="object-contain"
+            />
+          </div>
+          <span className="text-[13px] font-medium capitalize truncate">
+            {mainWeather.main}
+          </span>
+        </div>
+        
+        <div className="flex gap-2 text-[11px] font-bold opacity-60 mt-0.5">
+          <span>H:{Math.round(weather.main.temp_max)}°</span>
+          <span>L:{Math.round(weather.main.temp_min)}°</span>
         </div>
       </div>
     </div>

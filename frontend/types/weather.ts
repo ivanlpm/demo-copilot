@@ -1,9 +1,11 @@
 export interface WeatherData {
-  city: string;
+  name: string;
   main: {
     temp: number;
     feels_like: number;
     humidity: number;
+    temp_min: number;
+    temp_max: number;
   };
   weather: Array<{
     main: string;

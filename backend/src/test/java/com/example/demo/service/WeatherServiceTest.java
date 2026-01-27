@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.config.WeatherProperties;
 import com.example.demo.dto.WeatherResponse;
 import com.example.demo.exception.RateLimitExceededException;
 import com.example.demo.exception.WeatherApiException;
@@ -26,6 +27,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withUnauthorizedRequest;
 
 /**
  * Unit tests for WeatherService.
@@ -42,6 +44,7 @@ class WeatherServiceTest {
     private WeatherService weatherService;
     private MockRestServiceServer mockServer;
     private ObjectMapper objectMapper;
+    private WeatherProperties properties;
 
     @BeforeEach
     void setUp() {
@@ -49,16 +52,19 @@ class WeatherServiceTest {
         RestClient.Builder builder = RestClient.builder();
         mockServer = MockRestServiceServer.bindTo(builder).build();
         
+        properties = new WeatherProperties();
+        properties.getApi().setUrl("https://api.weather.test");
+        properties.getApi().setKey("test-api-key");
+        properties.setCacheMinutes(30);
+        properties.getRatelimit().setMax(60);
+        properties.getRatelimit().setWindow(60);
+        
         weatherService = new WeatherService(
             builder,
             cacheRepository,
             rateLimiter,
             objectMapper,
-            "https://api.weather.test",
-            "test-api-key",
-            30,
-            60,
-            60
+            properties
         );
     }
 
@@ -71,7 +77,7 @@ class WeatherServiceTest {
             {
                 "name": "Malaga",
                 "cod": 200,
-                "main": {"temp": 20.5, "feels_like": 19.0, "humidity": 65},
+                "main": {"temp": 20.5, "feels_like": 19.0, "humidity": 65, "temp_min": 18.0, "temp_max": 22.0},
                 "weather": [{"main": "Clear", "description": "clear sky", "icon": "01d"}]
             }
             """;
@@ -93,13 +99,33 @@ class WeatherServiceTest {
     }
 
     @Test
+    @DisplayName("getWeather should return mock data when API returns 401")
+    void getWeather_ApiReturns401_ReturnsMockData() throws Exception {
+        // given
+        String city = "Malaga";
+        when(cacheRepository.findByCity(city.toLowerCase())).thenReturn(Optional.empty());
+        mockServer.expect(requestTo(org.hamcrest.Matchers.startsWith("https://api.weather.test/weather")))
+                .andRespond(withUnauthorizedRequest());
+        
+        // when
+        WeatherResponse response = weatherService.getWeather(city);
+        
+        // then
+        assertThat(response).isNotNull();
+        assertThat(response.city()).isEqualTo("Malaga");
+        assertThat(response.main().temp()).isEqualTo(22.5); // Mock temp
+        assertThat(response.weather()[0].description()).isEqualTo("clear sky");
+        mockServer.verify();
+    }
+
+    @Test
     @DisplayName("getWeather should return cached data when cache is valid")
     void getWeather_ValidCacheExists_ReturnsCachedData() throws Exception {
         // given
         String city = "Malaga";
         WeatherResponse cachedResponse = new WeatherResponse(
             "Malaga",
-            new WeatherResponse.Main(20.5, 19.0, 65),
+            new WeatherResponse.Main(20.5, 19.0, 65, 18.0, 22.0),
             new WeatherResponse.Weather[]{
                 new WeatherResponse.Weather("Clear", "clear sky", "01d")
             },
@@ -127,7 +153,7 @@ class WeatherServiceTest {
         String city = "Malaga";
         WeatherResponse cachedResponse = new WeatherResponse(
             "Malaga",
-            new WeatherResponse.Main(20.5, 19.0, 65),
+            new WeatherResponse.Main(20.5, 19.0, 65, 18.0, 22.0),
             new WeatherResponse.Weather[]{
                 new WeatherResponse.Weather("Clear", "clear sky", "01d")
             },
@@ -187,7 +213,7 @@ class WeatherServiceTest {
             {
                 "name": "Malaga",
                 "cod": 200,
-                "main": {"temp": 20.5, "feels_like": 19.0, "humidity": 65},
+                "main": {"temp": 20.5, "feels_like": 19.0, "humidity": 65, "temp_min": 18.0, "temp_max": 22.0},
                 "weather": [{"main": "Clear", "description": "clear sky", "icon": "01d"}]
             }
             """;
@@ -218,7 +244,7 @@ class WeatherServiceTest {
         
         WeatherResponse cachedResponse = new WeatherResponse(
             "Malaga",
-            new WeatherResponse.Main(20.5, 19.0, 65),
+            new WeatherResponse.Main(20.5, 19.0, 65, 18.0, 22.0),
             new WeatherResponse.Weather[]{
                 new WeatherResponse.Weather("Clear", "clear sky", "01d")
             },

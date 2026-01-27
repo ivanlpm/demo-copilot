@@ -8,6 +8,16 @@ const nextConfig: NextConfig = {
         hostname: "random-d.uk",
         pathname: "/**",
       },
+      {
+        protocol: "http",
+        hostname: "random-d.uk",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "openweathermap.org",
+        pathname: "/img/wn/**",
+      },
     ],
   },
 };

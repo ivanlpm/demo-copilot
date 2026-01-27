@@ -14,7 +14,9 @@ public record WeatherResponse(
     public record Main(
         double temp,
         @JsonProperty("feels_like") double feelsLike,
-        double humidity
+        double humidity,
+        @JsonProperty("temp_min") double tempMin,
+        @JsonProperty("temp_max") double tempMax
     ) {}
 
     public record Weather(

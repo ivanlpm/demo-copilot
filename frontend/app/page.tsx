@@ -2,6 +2,7 @@
 
 import { useDuck } from "../hooks/useDuck";
 import { DuckCard } from "../components/ui/duck/DuckCard";
+import { WeatherWidget } from "../components/WeatherWidget";
 
 /**
  * Main application page to discover new ducks.
@@ -10,7 +11,12 @@ export default function Home() {
   const { duck, loading, error, fetchDuck } = useDuck();
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-zinc-50 px-4 py-12 dark:bg-black font-sans">
+    <div className="flex min-h-screen flex-col items-center bg-zinc-50 px-4 py-12 dark:bg-black font-sans relative overflow-x-hidden">
+      {/* Corner Weather Widget */}
+      <div className="fixed bottom-8 right-8 z-50">
+        <WeatherWidget />
+      </div>
+
       {/* Hero Section */}
       <header className="mb-16 text-center">
         <div className="inline-block rounded-full bg-orange-100 px-4 py-1.5 text-sm font-semibold text-orange-600 dark:bg-orange-900/30 dark:text-orange-400 mb-6">
