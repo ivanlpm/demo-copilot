@@ -10,9 +10,10 @@ export function useDuck() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:8080/api/duck");
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/duck";
+      const response = await fetch(apiUrl);
       if (!response.ok) {
-        throw new Error("Could not reach the Duck API. Is the backend running?");
+        throw new Error("Could not reach the Duck API");
       }
       const data: DuckData = await response.json();
       setDuck(data);
