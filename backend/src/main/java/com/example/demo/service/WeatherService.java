@@ -122,6 +122,7 @@ public class WeatherService {
     }
 
     private WeatherResponse fetchFromApi(String city) {
+        log.info("Fetching weather from API for city: {}, API key: {}", city, properties.getApi().getKey());
         return restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/weather")

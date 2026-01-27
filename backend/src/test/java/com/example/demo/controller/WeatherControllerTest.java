@@ -45,7 +45,7 @@ class WeatherControllerTest {
         // given
         WeatherResponse response = new WeatherResponse(
             "Malaga",
-            new WeatherResponse.Main(20.5, 19.0, 65),
+            new WeatherResponse.Main(20.5, 19.0, 65, 18.0, 22.0),
             new WeatherResponse.Weather[]{
                 new WeatherResponse.Weather("Clear", "clear sky", "01d")
             },
@@ -67,7 +67,7 @@ class WeatherControllerTest {
         // given
         WeatherResponse response = new WeatherResponse(
             "Malaga",
-            new WeatherResponse.Main(20.5, 19.0, 65),
+            new WeatherResponse.Main(20.5, 19.0, 65, 18.0, 22.0),
             new WeatherResponse.Weather[]{
                 new WeatherResponse.Weather("Clear", "clear sky", "01d")
             },
