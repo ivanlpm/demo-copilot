@@ -9,6 +9,10 @@ The repository is organized into two main components:
 - **[backend/](backend/)**: Spring Boot 4 application providing a REST API and external integrations.
 - **[frontend/](frontend/)**: Next.js 16 application with React 19 and Tailwind CSS 4.
 
+## 📊 Architecture
+
+For a detailed visualization of the end-to-end data flow, see the [**Flow Diagram**](FLOW_DIAGRAM.md).
+
 ## 🚀 Tech Stack
 
 ### Backend
