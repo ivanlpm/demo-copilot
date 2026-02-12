@@ -17,8 +17,8 @@ Comprehensive guide for AI agents working on the Java/Spring Boot backend and Ne
 ## 🛠️ Developer Workflows
 
 - **Backend**: 
-  - Build/Test: `./mvnw clean install`
-  - Run: `./mvnw spring-boot:run`
+  - Build/Test: `mvn clean install`
+  - Run: `mvn spring-boot:run`
 - **Frontend**:
   - Dev: `npm run dev`
 
