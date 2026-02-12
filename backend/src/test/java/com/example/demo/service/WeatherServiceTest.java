@@ -265,4 +265,72 @@ class WeatherServiceTest {
         assertThat(response.city()).isEqualTo("Malaga");
         verify(cacheRepository, never()).save(any());
     }
+
+    @Test
+    @DisplayName("getCacheStatistics should return cache statistics")
+    void getCacheStatistics_ReturnsStatistics() {
+        // given
+        WeatherCache activeCache1 = new WeatherCache("london", "{}", 30);
+        WeatherCache activeCache2 = new WeatherCache("paris", "{}", 30);
+        WeatherCache expiredCache = mock(WeatherCache.class);
+        when(expiredCache.isExpired()).thenReturn(true);
+        
+        when(cacheRepository.findAll()).thenReturn(java.util.List.of(activeCache1, activeCache2, expiredCache));
+        
+        // when
+        var stats = weatherService.getCacheStatistics();
+        
+        // then
+        assertThat(stats).isNotNull();
+        assertThat(stats.totalCached()).isEqualTo(3);
+        assertThat(stats.activeCaches()).isEqualTo(2);
+        assertThat(stats.expiredCaches()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("getCacheList should return all cache entries")
+    void getCacheList_ReturnsCacheEntries() {
+        // given
+        WeatherCache cache1 = new WeatherCache("london", "{}", 30);
+        WeatherCache cache2 = new WeatherCache("paris", "{}", 30);
+        
+        when(cacheRepository.findAll()).thenReturn(java.util.List.of(cache1, cache2));
+        
+        // when
+        var cacheList = weatherService.getCacheList();
+        
+        // then
+        assertThat(cacheList).hasSize(2);
+        assertThat(cacheList.get(0).city()).isEqualTo("london");
+        assertThat(cacheList.get(1).city()).isEqualTo("paris");
+    }
+
+    @Test
+    @DisplayName("invalidateCache should delete existing cache and return true")
+    void invalidateCache_WhenCacheExists_ReturnsTrue() {
+        // given
+        WeatherCache cache = new WeatherCache("london", "{}", 30);
+        when(cacheRepository.findByCity("london")).thenReturn(Optional.of(cache));
+        
+        // when
+        boolean result = weatherService.invalidateCache("london");
+        
+        // then
+        assertThat(result).isTrue();
+        verify(cacheRepository).deleteByCity("london");
+    }
+
+    @Test
+    @DisplayName("invalidateCache should return false when cache does not exist")
+    void invalidateCache_WhenCacheNotExists_ReturnsFalse() {
+        // given
+        when(cacheRepository.findByCity("unknown")).thenReturn(Optional.empty());
+        
+        // when
+        boolean result = weatherService.invalidateCache("unknown");
+        
+        // then
+        assertThat(result).isFalse();
+        verify(cacheRepository, never()).deleteByCity(anyString());
+    }
 }
