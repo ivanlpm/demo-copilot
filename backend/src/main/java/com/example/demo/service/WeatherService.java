@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.config.WeatherProperties;
+import com.example.demo.dto.weather.WeatherCacheEntryResponse;
+import com.example.demo.dto.weather.WeatherCacheStatisticsResponse;
 import com.example.demo.dto.weather.WeatherInfo;
 import com.example.demo.dto.weather.WeatherMain;
 import com.example.demo.dto.weather.WeatherResponse;
@@ -14,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClient;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service to fetch and cache weather data with rate limiting and error fallback.
@@ -181,5 +185,47 @@ public class WeatherService {
         } catch (JsonProcessingException e) {
             throw new WeatherApiException("Failed to deserialize cached weather data", e);
         }
+    }
+
+    /**
+     * Get cache statistics.
+     */
+    @Transactional(readOnly = true)
+    public WeatherCacheStatisticsResponse getCacheStatistics() {
+        List<WeatherCache> allCaches = cacheRepository.findAll();
+        long totalCached = allCaches.size();
+        long activeCaches = allCaches.stream().filter(cache -> !cache.isExpired()).count();
+        long expiredCaches = totalCached - activeCaches;
+        
+        return new WeatherCacheStatisticsResponse(totalCached, activeCaches, expiredCaches);
+    }
+
+    /**
+     * Get list of all cached entries.
+     */
+    @Transactional(readOnly = true)
+    public List<WeatherCacheEntryResponse> getCacheList() {
+        return cacheRepository.findAll().stream()
+                .map(cache -> new WeatherCacheEntryResponse(
+                        cache.getCity(),
+                        cache.getCachedAt(),
+                        cache.getExpiresAt(),
+                        cache.isExpired()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Invalidate cache for a specific city.
+     */
+    @Transactional
+    public boolean invalidateCache(String city) {
+        Optional<WeatherCache> cached = cacheRepository.findByCity(city.toLowerCase());
+        if (cached.isPresent()) {
+            cacheRepository.deleteByCity(city.toLowerCase());
+            log.info("Cache invalidated for: {}", city);
+            return true;
+        }
+        return false;
     }
 }
