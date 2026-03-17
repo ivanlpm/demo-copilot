@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.duck.DuckResponse;
-import com.example.demo.repository.DuckRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 class DuckServiceTest {
 
     @Mock
-    private DuckRepository duckRepository;
+    private DuckPersistenceService duckPersistenceService;
 
     private DuckService duckService;
     private MockRestServiceServer mockServer;
@@ -31,12 +30,12 @@ class DuckServiceTest {
     void setUp() {
         RestClient.Builder builder = RestClient.builder();
         mockServer = MockRestServiceServer.bindTo(builder).build();
-        duckService = new DuckService(builder, duckRepository, "https://api.test.com");
+        duckService = new DuckService(builder, duckPersistenceService, "https://api.test.com");
     }
 
     @Test
-    @DisplayName("getRandomDuck should fetch from API and save to repository")
-    void getRandomDuck_Success_SavesToRepo() {
+    @DisplayName("getRandomDuck should fetch from API and trigger async save")
+    void getRandomDuck_Success_TriggersAsyncSave() {
         // given
         String jsonResponse = "{\"url\": \"https://duck.com/img.jpg\", \"message\": \"Quack!\"}";
         mockServer.expect(requestTo("https://api.test.com/random"))
@@ -49,8 +48,8 @@ class DuckServiceTest {
         assertThat(response).isNotNull();
         assertThat(response.url()).isEqualTo("https://duck.com/img.jpg");
         assertThat(response.message()).isEqualTo("Quack!");
-        
-        verify(duckRepository, times(1)).save(any());
+
+        verify(duckPersistenceService, times(1)).saveDuckAsync(any());
         mockServer.verify();
     }
 }

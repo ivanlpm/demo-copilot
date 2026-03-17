@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.dto.duck.DuckResponse;
 import com.example.demo.model.Duck;
-import com.example.demo.repository.DuckRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -14,17 +13,19 @@ import org.springframework.web.client.RestClient;
 public class DuckService {
 
     private final RestClient restClient;
-    private final DuckRepository duckRepository;
+    private final DuckPersistenceService duckPersistenceService;
 
-    public DuckService(RestClient.Builder restClientBuilder, 
-                      DuckRepository duckRepository,
-                      @Value("${duck.api.url}") String apiUrl) {
+    public DuckService(RestClient.Builder restClientBuilder,
+                       DuckPersistenceService duckPersistenceService,
+                       @Value("${duck.api.url}") String apiUrl) {
         this.restClient = restClientBuilder.baseUrl(apiUrl).build();
-        this.duckRepository = duckRepository;
+        this.duckPersistenceService = duckPersistenceService;
     }
 
     /**
-     * Fetches a random duck information from the external API and saves it to the database.
+     * Fetches a random duck from the external API and asynchronously persists it to the database.
+     * The response is returned to the caller immediately without waiting for the save to complete.
+     *
      * @return DuckResponse containing the image URL and a message.
      */
     public DuckResponse getRandomDuck() {
@@ -34,9 +35,8 @@ public class DuckService {
                 .body(DuckResponse.class);
 
         if (response != null) {
-            // Save the duck to our database
             Duck duck = new Duck(response.url(), response.message());
-            duckRepository.save(duck);
+            duckPersistenceService.saveDuckAsync(duck);
         }
 
         return response;
